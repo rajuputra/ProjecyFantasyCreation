@@ -1,0 +1,59 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!78 &1
+TagManager:
+  serializedVersion: 2
+  tags:
+  - Enemy
+  layers:
+  - Default
+  - TransparentFX
+  - Ignore Raycast
+  - 
+  - Water
+  - UI
+  - Ground
+  - Enemy
+  - Item
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  m_SortingLayers:
+  - name: Default
+    uniqueID: 0
+    locked: 0
+  - name: Background
+    uniqueID: 1893298965
+    locked: 0
+  - name: DepanBackground
+    uniqueID: 3613039759
+    locked: 0
+  - name: BelakangFloors
+    uniqueID: 3357980021
+    locked: 0
+  - name: Floors
+    uniqueID: 2836066489
+    locked: 0
+  - name: DepanFloors
+    uniqueID: 1637656511
+    locked: 0

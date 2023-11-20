@@ -1,0 +1,482 @@
+fileFormatVersion: 2
+guid: d21cc29cb57ee934fa4768b6ec66af71
+TextureImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 12
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 0
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 512
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 3
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Server
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: Mossy - FloatingPlatforms_0
+      rect:
+        serializedVersion: 2
+        x: 115
+        y: 1679
+        width: 258
+        height: 318
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape:
+      - - {x: -98, y: 48}
+        - {x: -98, y: -70}
+        - {x: -32, y: -118}
+        - {x: 25, y: -121}
+        - {x: 65, y: -107}
+        - {x: 95, y: -57}
+        - {x: 93, y: 48}
+      tessellationDetail: 0
+      bones: []
+      spriteID: 14c711763b5b8f94c8386a0086d08c11
+      internalID: 1241991306
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Mossy - FloatingPlatforms_1
+      rect:
+        serializedVersion: 2
+        x: 366
+        y: 1826
+        width: 15
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8d928c4600ade83448f7a970485c592f
+      internalID: -537773848
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Mossy - FloatingPlatforms_2
+      rect:
+        serializedVersion: 2
+        x: 479
+        y: 1562
+        width: 1049
+        height: 451
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape:
+      - - {x: 454.5, y: 77.5}
+        - {x: 413.99902, y: 121.5}
+        - {x: -429.5, y: 121.5}
+        - {x: -451.5, y: 83.5}
+        - {x: -447.5, y: -55.5}
+        - {x: -409.5, y: -121.5}
+        - {x: -282.5, y: -164.5}
+        - {x: -179.5, y: -133.5}
+        - {x: -81.5, y: -118.5}
+        - {x: 17.5, y: -160.5}
+        - {x: 140.5, y: -186.5}
+        - {x: 183.5, y: -143.5}
+        - {x: 245.5, y: -168.5}
+        - {x: 295.5, y: -137.5}
+        - {x: 403.5, y: -123.5}
+      tessellationDetail: 0
+      bones: []
+      spriteID: c51348fc01b45a147becf931e4a45d0d
+      internalID: 505376305
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Mossy - FloatingPlatforms_3
+      rect:
+        serializedVersion: 2
+        x: 1595
+        y: 1063
+        width: 447
+        height: 941
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape:
+      - - {x: -140.5, y: 359.5}
+        - {x: -159.5, y: 319.5}
+        - {x: -170.5, y: -149.5}
+        - {x: -167.5, y: -204.5}
+        - {x: -137.5, y: -246.5}
+        - {x: -93.5, y: -327.5}
+        - {x: -45.5, y: -373.5}
+        - {x: 40.5, y: -403.5}
+        - {x: 147.5, y: -306.5}
+        - {x: 172.5, y: -220.5}
+        - {x: 176.5, y: 319.5}
+        - {x: 152.5, y: 360.5}
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1d6d2fc74d6adb74082ad45778bc6359
+      internalID: 1637698742
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Mossy - FloatingPlatforms_4
+      rect:
+        serializedVersion: 2
+        x: 36
+        y: 1169
+        width: 7
+        height: 10
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 626530e5c414ce946b7ea59bd3c4e4da
+      internalID: 1839323169
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Mossy - FloatingPlatforms_5
+      rect:
+        serializedVersion: 2
+        x: 47
+        y: 1138
+        width: 381
+        height: 368
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape:
+      - - {x: 127.5, y: 100}
+        - {x: -131.5, y: 96}
+        - {x: -160.5, y: 60}
+        - {x: -142.5, y: -92}
+        - {x: -104.5, y: -139}
+        - {x: 13.5, y: -158}
+        - {x: 123.5, y: -143}
+        - {x: 147.5, y: -80}
+        - {x: 147.5, y: 51}
+      tessellationDetail: 0
+      bones: []
+      spriteID: a1476de894f5e0c4aa4d51b14ef7f5d5
+      internalID: 1336485525
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Mossy - FloatingPlatforms_6
+      rect:
+        serializedVersion: 2
+        x: 497
+        y: 1059
+        width: 1049
+        height: 451
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape:
+      - - {x: 385.0923, y: 127.594604}
+        - {x: -378.5, y: 120.5}
+        - {x: -437.5, y: 65.5}
+        - {x: -431.5, y: -118.5}
+        - {x: -343.5, y: -150.5}
+        - {x: -275.5, y: -135.5}
+        - {x: -187.5, y: -150.5}
+        - {x: -37.5, y: -158.5}
+        - {x: 92.5, y: -116.5}
+        - {x: 289.5, y: -146.5}
+        - {x: 418.5, y: -107.5}
+        - {x: 457.5, y: 86.5}
+      tessellationDetail: 0
+      bones: []
+      spriteID: a9955efc97e191a4bba415223c4e17d0
+      internalID: -1752221369
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Mossy - FloatingPlatforms_7
+      rect:
+        serializedVersion: 2
+        x: 113
+        y: 623
+        width: 281
+        height: 315
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape:
+      - - {x: 92.5, y: 37.5}
+        - {x: 79.5, y: 68.5}
+        - {x: -101.5, y: 69.5}
+        - {x: -111.5, y: 42.5}
+        - {x: -104.5, y: -32.5}
+        - {x: -92.5, y: -61.5}
+        - {x: -56.5, y: -77.5}
+        - {x: 56.5, y: -81.5}
+        - {x: 88.5, y: -48.5}
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7fb549fced4a99745b064bd07caa15bc
+      internalID: 2030544723
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Mossy - FloatingPlatforms_8
+      rect:
+        serializedVersion: 2
+        x: 438
+        y: 503
+        width: 1561
+        height: 450
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape:
+      - - {x: -681.5, y: 141}
+        - {x: -738.5, y: 88}
+        - {x: -718.5, y: -46}
+        - {x: -660.5, y: -109}
+        - {x: -531.5, y: -168}
+        - {x: -470.5, y: -135}
+        - {x: -418.5, y: -168}
+        - {x: -346.5, y: -122}
+        - {x: -224.5, y: -163}
+        - {x: -111.5, y: -188}
+        - {x: -58.5, y: -141}
+        - {x: 92.5, y: -163}
+        - {x: 171.5, y: -121}
+        - {x: 283.5, y: -157}
+        - {x: 403.5, y: -189}
+        - {x: 435.5, y: -144}
+        - {x: 567.5, y: -166}
+        - {x: 696.5, y: -133}
+        - {x: 741.5, y: 44}
+        - {x: 700.5, y: 138}
+      tessellationDetail: 0
+      bones: []
+      spriteID: 88fab90830516bc4e915242475746a3e
+      internalID: 1357244906
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Mossy - FloatingPlatforms_9
+      rect:
+        serializedVersion: 2
+        x: 20
+        y: 31
+        width: 2013
+        height: 451
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape:
+      - - {x: -274.5, y: -157.5}
+        - {x: -183.5, y: -149.5}
+        - {x: -84.5, y: -186.5}
+        - {x: -25.5, y: -133.5}
+        - {x: 52.5, y: -148.5}
+        - {x: 98.5, y: -106.5}
+        - {x: 157.5, y: -157.5}
+        - {x: 216.5, y: -143.5}
+        - {x: 334.5, y: -159.5}
+        - {x: 435.5, y: -175.5}
+        - {x: 534.5, y: -125.5}
+        - {x: 628.5, y: -116.5}
+        - {x: 771.5, y: -168.5}
+        - {x: 862.5, y: -152.5}
+        - {x: 926.5, y: -42.5}
+        - {x: 961.5, y: 79.5}
+        - {x: 935.5, y: 155.5}
+        - {x: -918.5, y: 154.5}
+        - {x: -967.5, y: 80.5}
+        - {x: -892.5, y: -116.5}
+        - {x: -806.5, y: -157.5}
+        - {x: -664.5, y: -158.5}
+        - {x: -601.5, y: -190.5}
+        - {x: -480.5, y: -162.5}
+        - {x: -368.5, y: -101.5}
+      tessellationDetail: 0
+      bones: []
+      spriteID: d8aade9bc97f9a247aac79310e97e85c
+      internalID: 1905651326
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    physicsShape: []
+    bones: []
+    spriteID: e45f93eb02bcb9a4e9608f4ef8df2cfb
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    nameFileIdTable:
+      Mossy - FloatingPlatforms_0: 1241991306
+      Mossy - FloatingPlatforms_1: -537773848
+      Mossy - FloatingPlatforms_2: 505376305
+      Mossy - FloatingPlatforms_3: 1637698742
+      Mossy - FloatingPlatforms_4: 1839323169
+      Mossy - FloatingPlatforms_5: 1336485525
+      Mossy - FloatingPlatforms_6: -1752221369
+      Mossy - FloatingPlatforms_7: 2030544723
+      Mossy - FloatingPlatforms_8: 1357244906
+      Mossy - FloatingPlatforms_9: 1905651326
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
