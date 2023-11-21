@@ -27,8 +27,8 @@ public class Player : MonoBehaviour
 
     [Header("Ground Check Settings:")]
     [SerializeField] private Transform groundCheckPoint; //point at which ground check happens
-    [SerializeField] private float groundCheckY = 0.2f; //how far down from ground chekc point is Grounded() checked
-    [SerializeField] private float groundCheckX = 0.5f; //how far horizontally from ground chekc point to the edge of the player is
+    [SerializeField] private float groundCheckY = 0.5f; //how far down from ground chekc point is Grounded() checked
+    [SerializeField] private float groundCheckX = 1f; //how far horizontally from ground chekc point to the edge of the player is
     [SerializeField] private LayerMask whatIsGround; //sets the ground layer
     [Space(5)]
 
@@ -128,14 +128,18 @@ public class Player : MonoBehaviour
     {
         Gizmos.color = Color.red;
         Gizmos.DrawWireCube(SideAttackTransform.position, SideAttackArea);
-        
+
+        Debug.DrawRay(groundCheckPoint.position, Vector2.down * groundCheckY, Grounded() ? Color.green : Color.red);
+        Debug.DrawRay(groundCheckPoint.position + new Vector3(groundCheckX, 0, 0), Vector2.down * groundCheckY, Grounded() ? Color.green : Color.red);
+        Debug.DrawRay(groundCheckPoint.position + new Vector3(-groundCheckX, 0, 0), Vector2.down * groundCheckY, Grounded() ? Color.green : Color.red);
+
     }
 
     // Update is called once per frame
     void Update()
     {
         if (aState.cutscene) return;
-
+        RestoreTimeScale();
         GetInputs();
         UpdateJumpVariables();
         UpdateCameraYDampForPlayerFall();
@@ -147,7 +151,7 @@ public class Player : MonoBehaviour
         Jump();
         StartDash();
         Attack();
-        RestoreTimeScale();
+        /*RestoreTimeScale();*/
         FlashWhileInvincible();
         Heal();
         
