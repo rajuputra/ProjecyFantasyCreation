@@ -78,9 +78,12 @@ public class Player : MonoBehaviour
     [SerializeField] float manaGain;
     [Space(5)]
 
+    [Header("Camera Stuff")]
+    [SerializeField] private float playerFallSpeedThtreshold = -10;
+
     [HideInInspector] public AlexStateList aState;
     private Animator anim;
-    private Rigidbody2D rb;
+    public Rigidbody2D rb;
     private SpriteRenderer sr;
 
     //Input Variables
@@ -135,14 +138,16 @@ public class Player : MonoBehaviour
 
         GetInputs();
         UpdateJumpVariables();
-        RestoreTimeScale();
+        UpdateCameraYDampForPlayerFall();
+        
 
-        if (aState.dashing) return;
+        if (aState.dashing ) return;
         Facing();
         Move();
         Jump();
         StartDash();
         Attack();
+        RestoreTimeScale();
         FlashWhileInvincible();
         Heal();
         
@@ -185,6 +190,21 @@ public class Player : MonoBehaviour
         anim.SetBool("Walking", rb.velocity.x != 0 && Grounded());
     }
 
+    void UpdateCameraYDampForPlayerFall()
+    {
+        //if falling past a certain speed threshold
+        if(rb.velocity.y < playerFallSpeedThtreshold && !CameraManager.Instance.isLerpingYDamping && !CameraManager.Instance.hasLerpedYDamping)
+        {
+            StartCoroutine(CameraManager.Instance.LerpYDamping(true));
+        }
+        //if standing still or moving up
+        if(rb.velocity.y >= 0 && !CameraManager.Instance.isLerpingYDamping && CameraManager.Instance.hasLerpedYDamping)
+        {
+            //reset camera function
+            CameraManager.Instance.hasLerpedYDamping = false;
+            StartCoroutine(CameraManager.Instance.LerpYDamping(false));
+        }
+    }
     void StartDash()
     {
         if (Input.GetButtonDown("Dash") && canDash && !dashed)
@@ -436,6 +456,19 @@ public class Player : MonoBehaviour
             return false;
         }
     }
+    /*public bool Grounded()
+    {
+        bool isGrounded = Physics2D.Raycast(groundCheckPoint.position, Vector2.down, groundCheckY, whatIsGround)
+            || Physics2D.Raycast(groundCheckPoint.position + new Vector3(groundCheckX, 0, 0), Vector2.down, groundCheckY, whatIsGround)
+            || Physics2D.Raycast(groundCheckPoint.position + new Vector3(-groundCheckX, 0, 0), Vector2.down, groundCheckY, whatIsGround);
+
+        // Draw raycasts for visualization
+        Debug.DrawRay(groundCheckPoint.position, Vector2.down * groundCheckY, isGrounded ? Color.green : Color.red);
+        Debug.DrawRay(groundCheckPoint.position + new Vector3(groundCheckX, 0, 0), Vector2.down * groundCheckY, isGrounded ? Color.green : Color.red);
+        Debug.DrawRay(groundCheckPoint.position + new Vector3(-groundCheckX, 0, 0), Vector2.down * groundCheckY, isGrounded ? Color.green : Color.red);
+
+        return isGrounded;
+    }*/
 
     void Jump()
     {
@@ -456,7 +489,7 @@ public class Player : MonoBehaviour
             rb.velocity = new Vector3(rb.velocity.x, jumpForce);
         }
 
-        if (Input.GetButtonUp("Jump") && rb.velocity.y > 3)
+        if (!Input.GetButton("Jump") && rb.velocity.y > 3)
         {
             rb.velocity = new Vector2(rb.velocity.x, 0);
 
@@ -464,6 +497,7 @@ public class Player : MonoBehaviour
         }
 
         anim.SetBool("Jumping", !Grounded());
+        anim.SetFloat("yVelocity", rb.velocity.y);
     }
 
     void UpdateJumpVariables()
