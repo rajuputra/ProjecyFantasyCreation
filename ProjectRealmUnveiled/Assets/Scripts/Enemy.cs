@@ -29,6 +29,11 @@ public class Enemy : MonoBehaviour
         Fly_Chase,
         Fly_Stunned,
         Fly_Death,
+
+        //Charger Enemy
+        Charger_Idle,
+        Charger_Surprissed,
+        Charger_Charge
     }
 
     protected EnemyStates currenEnemyState;
