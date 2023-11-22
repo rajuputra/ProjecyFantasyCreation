@@ -2,60 +2,74 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Fly : Enemy
+public class Shade : Enemy
 {
     [SerializeField] private float chaseDistance;
     [SerializeField] private float stunDuration;
     float timer;
 
+    public static Shade Instance;
+
+    private void Awake()
+    {
+        if(Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+        }
+        else
+        {
+            Instance = this;
+        }
+    }
+
     // Start is called before the first frame update
     protected override void Start()
     {
         base.Start();
-        ChangeState(EnemyStates.Fly_Idle);
+        ChangeState(EnemyStates.Shade_Idle);
     }
 
     protected override void Update()
     {
         base.Update();
-        
+
         if (!Player.Instance.aState.alive)
         {
-            ChangeState(EnemyStates.Fly_Idle);
+            ChangeState(EnemyStates.Shade_Idle);
         }
     }
 
     protected override void UpdateEnemyState()
     {
         float _dist = Vector2.Distance(transform.position, Player.Instance.transform.position);
-        switch(GetCurrentEnemyState)
+        switch (GetCurrentEnemyState)
         {
-            case EnemyStates.Fly_Idle:
+            case EnemyStates.Shade_Idle:
                 if (_dist < chaseDistance)
                 {
-                    ChangeState(EnemyStates.Fly_Chase);
+                    ChangeState(EnemyStates.Shade_Chase);
                 }
                 break;
 
-            case EnemyStates.Fly_Chase:
+            case EnemyStates.Shade_Chase:
                 rb.MovePosition(Vector2.MoveTowards(transform.position, Player.Instance.transform.position, Time.deltaTime * speed));
 
-                FlipFly();
+                FlipShade();
                 break;
 
-            case EnemyStates.Fly_Stunned:
+            case EnemyStates.Shade_Stunned:
                 timer += Time.deltaTime;
 
-                if(timer > stunDuration)
+                if (timer > stunDuration)
                 {
-                    ChangeState(EnemyStates.Fly_Idle);
+                    ChangeState(EnemyStates.Shade_Idle);
                     timer = 0;
                 }
 
                 break;
 
 
-            case EnemyStates.Fly_Death:
+            case EnemyStates.Shade_Death:
                 Death(Random.Range(5, 10));
 
                 break;
@@ -66,13 +80,13 @@ public class Fly : Enemy
     {
         base.EnemyGetsHit(_damageDone, _hitDirection, _hitForce);
 
-        if(health > 0)
+        if (health > 0)
         {
-            ChangeState(EnemyStates.Fly_Stunned);
+            ChangeState(EnemyStates.Shade_Stunned);
         }
         else
         {
-            ChangeState(EnemyStates.Fly_Death);
+            ChangeState(EnemyStates.Shade_Death);
         }
     }
 
@@ -83,19 +97,29 @@ public class Fly : Enemy
     }
     protected override void ChangeCurrentAnimation()
     {
-        anim.SetBool("Idle", GetCurrentEnemyState == EnemyStates.Fly_Idle);
-
-        anim.SetBool("Chase", GetCurrentEnemyState == EnemyStates.Fly_Chase);
-
-        anim.SetBool("Stunned", GetCurrentEnemyState == EnemyStates.Fly_Stunned);
-
-        if(GetCurrentEnemyState == EnemyStates.Fly_Death)
+        if(GetCurrentEnemyState == EnemyStates.Shade_Idle)
         {
+            anim.Play("Alex_IDLE");
+        }
+
+        anim.SetBool("Walking", GetCurrentEnemyState == EnemyStates.Shade_Chase);
+
+
+        if (GetCurrentEnemyState == EnemyStates.Shade_Death)
+        {
+            Player.Instance.RestoredMana();
             anim.SetTrigger("Death");
+            Destroy(gameObject);
         }
     }
 
-    void FlipFly()
+    protected override void Attack()
+    {
+        anim.SetTrigger("Attack");
+        Player.Instance.TakeDamage(damage);
+    }
+
+    void FlipShade()
     {
         sr.flipX = Player.Instance.transform.position.x < transform.position.x;
     }

@@ -76,6 +76,7 @@ public class Player : MonoBehaviour
     [SerializeField] float mana;
     [SerializeField] float manaDrainSpeed;
     [SerializeField] float manaGain;
+    bool halfMana;
     [Space(5)]
 
     [Header("Camera Stuff")]
@@ -139,23 +140,26 @@ public class Player : MonoBehaviour
     void Update()
     {
         if (aState.cutscene) return;
+        if(aState.alive)
+        {
+            GetInputs();
+        }
         RestoreTimeScale();
-        GetInputs();
         UpdateJumpVariables();
         UpdateCameraYDampForPlayerFall();
         
 
         if (aState.dashing ) return;
-        Facing();
-        Move();
-        Jump();
-        StartDash();
-        Attack();
-        /*RestoreTimeScale();*/
+        if (aState.alive)
+        {
+            Facing();
+            Move();
+            Jump();
+            StartDash();
+            Attack();
+            Heal();
+        }        
         FlashWhileInvincible();
-        Heal();
-        
-
 
     }
 
@@ -314,9 +318,20 @@ public class Player : MonoBehaviour
 
     public void TakeDamage(float _damage)
     {
-        Health -= Mathf.RoundToInt(_damage);
+        if(aState.alive)
+        {
+            Health -= Mathf.RoundToInt(_damage);
+            if(Health <= 0)
+            {
+                Health = 0;
+                StartCoroutine(Death());
 
-        StartCoroutine(StopTakingDamage());
+            }
+            else
+            {
+                StartCoroutine(StopTakingDamage());
+            }
+        }
     }
 
 
@@ -368,6 +383,33 @@ public class Player : MonoBehaviour
         yield return new WaitForSeconds(_delay);
     }
 
+    IEnumerator Death()
+    {
+        aState.alive = false;
+        Time.timeScale = 1;
+        GameObject _bloodSpurtParticles = Instantiate(bloodSpurt, transform.position, Quaternion.identity);
+        Destroy(_bloodSpurtParticles, 1.5f);
+        anim.SetTrigger("Death");
+
+        yield return new WaitForSeconds(0.9f);
+        StartCoroutine(UIManager.Instance.ActiveDeathScreen());
+
+        yield return new WaitForSeconds(0.9f);
+        Instantiate(GameManager.Instance.shade, transform.position, Quaternion.identity);
+    }
+
+    public void Respawned()
+    {
+        if (!aState.alive)
+        {
+            aState.alive = true;
+            halfMana = true;
+            UIManager.Instance.SwitchMana(UIManager.ManaState.HalfMana);
+            Mana = 0;
+            Health = maxHealth;
+            anim.Play("Alex_IDLE");
+        }
+    }
     IEnumerator Flash()
     {
         sr.enabled = !sr.enabled;
@@ -389,6 +431,12 @@ public class Player : MonoBehaviour
         {
             sr.enabled = true;
         }
+    }
+
+    public void RestoredMana()
+    {
+        halfMana = false;
+        UIManager.Instance.SwitchMana(UIManager.ManaState.FullMana);
     }
 
     public int Health
@@ -440,7 +488,15 @@ public class Player : MonoBehaviour
             //if mana stats change
             if (mana != value)
             {
-                mana = Mathf.Clamp(value, 0, 1);
+                if(!halfMana)
+                {
+                    mana = Mathf.Clamp(value, 0, 1);
+                }
+                else
+                {
+                    mana = Mathf.Clamp(value, 0, 0.5f);
+                }
+                
                 manaStorage.fillAmount = Mana;
 
             }

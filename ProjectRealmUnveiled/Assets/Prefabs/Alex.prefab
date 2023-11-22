@@ -77,6 +77,7 @@ GameObject:
   - component: {fileID: 3222332849316332641}
   - component: {fileID: 6296181172691938844}
   - component: {fileID: 2353556278084201600}
+  - component: {fileID: 8931853424401944636}
   m_Layer: 0
   m_Name: Alex
   m_TagString: Player
@@ -139,9 +140,9 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: -936987275
-  m_SortingLayer: 3
-  m_SortingOrder: 0
+  m_SortingLayerID: -1458900807
+  m_SortingLayer: 4
+  m_SortingOrder: -1
   m_Sprite: {fileID: 1979226375, guid: db383c7cf258e594bbc820aa112a1377, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -168,7 +169,7 @@ Rigidbody2D:
   m_Mass: 1
   m_LinearDrag: 0
   m_AngularDrag: 0.05
-  m_GravityScale: 9.5
+  m_GravityScale: 4
   m_Material: {fileID: 6200000, guid: 32a61500eff436c4e940864819695aa1, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
@@ -237,18 +238,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5caf06ea8eaf8b42a5379289ebd96f3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  walkSpeed: 7
-  jumpForce: 25
+  walkSpeed: 4
+  jumpForce: 12
   jumpBufferFrames: 8
   coyoteTime: 0.1
   maxAirJumps: 1
   groundCheckPoint: {fileID: 84450658570682864}
-  groundCheckY: 0.2
-  groundCheckX: 0
+  groundCheckY: 0.3
+  groundCheckX: 0.3
   whatIsGround:
     serializedVersion: 2
     m_Bits: 64
-  dashSpeed: 20
+  dashSpeed: 10
   dashTime: 0.2
   dashCooldown: 0.35
   dashEffect: {fileID: 160783193494708518, guid: d623ea9333c9b7a4e80de257c7352eb1, type: 3}
@@ -257,12 +258,12 @@ MonoBehaviour:
   attackableLayer:
     serializedVersion: 2
     m_Bits: 128
-  damage: 2
+  damage: 1
   slashEffect: {fileID: 8302415208285548769, guid: a9f73d15a23e71942822a71f995e8899, type: 3}
-  recoilXSteps: 5
-  recoilXSpeed: 100
+  recoilXSteps: 3
+  recoilXSpeed: 15
   health: 0
-  maxHealth: 10
+  maxHealth: 5
   bloodSpurt: {fileID: 6568936070147682327, guid: 5cbaf849b17f5dc44a0a62fd417e116f, type: 3}
   hitFlashSpeed: 5
   timeToHeal: 1
@@ -270,7 +271,9 @@ MonoBehaviour:
   mana: 0.5
   manaDrainSpeed: 0.2
   manaGain: 0.3
+  playerFallSpeedThtreshold: -10
   aState: {fileID: 0}
+  rb: {fileID: 0}
 --- !u!114 &6296181172691938844
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -290,6 +293,7 @@ MonoBehaviour:
   invincible: 0
   healing: 0
   cutscene: 0
+  alive: 1
 --- !u!95 &2353556278084201600
 Animator:
   serializedVersion: 5
@@ -311,3 +315,38 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!70 &8931853424401944636
+CapsuleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4975907809000115534}
+  m_Enabled: 0
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: -0.01, y: 0}
+  m_Size: {x: 0.47, y: 1.04}
+  m_Direction: 0

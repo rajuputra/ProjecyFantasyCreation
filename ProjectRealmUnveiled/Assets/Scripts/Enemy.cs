@@ -33,7 +33,14 @@ public class Enemy : MonoBehaviour
         //Charger Enemy
         Charger_Idle,
         Charger_Surprissed,
-        Charger_Charge
+        Charger_Charge,
+
+        //Shade
+        Shade_Idle,
+        Shade_Chase,
+        Shade_Stunned,
+        Shade_Death,
+
     }
 
     protected EnemyStates currenEnemyState;
@@ -96,7 +103,11 @@ public class Enemy : MonoBehaviour
         if (_other.gameObject.CompareTag("Player") && !Player.Instance.aState.invincible && !Player.Instance.aState.invincible && health > 0)
         {
             Attack();
-            Player.Instance.HitStopTime(0, 5, 0.5f);
+            if (Player.Instance.aState.alive)
+            {
+                Player.Instance.HitStopTime(0, 5, 0.5f);
+            }
+            
         }
     }
 

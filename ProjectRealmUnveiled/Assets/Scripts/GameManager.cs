@@ -6,7 +6,11 @@ public class GameManager : MonoBehaviour
 {
     public string transitionedFromScene;
 
-    public Vector2 alexRespawnPoint;
+    public Vector2 platformingRespawnPoint;
+    public Vector2 respawnPoint;
+    [SerializeField] SetSpawnPoint setspawn;
+
+    public GameObject shade;
 
     public static GameManager Instance { get; private set; }
     private void Awake()
@@ -20,5 +24,31 @@ public class GameManager : MonoBehaviour
             Instance = this;
         }
         DontDestroyOnLoad(gameObject);
+        setspawn = FindObjectOfType<SetSpawnPoint>();
     }
+
+    public void RespawnPlayer()
+    {
+        if(setspawn != null)
+        {
+            if (setspawn.interacted)
+            {
+                respawnPoint = setspawn.transform.position;
+            }
+            else
+            {
+                respawnPoint = platformingRespawnPoint;
+            }
+        }
+        else
+        {
+            respawnPoint = platformingRespawnPoint;
+        }
+
+        
+        Player.Instance.transform.position = respawnPoint;
+        StartCoroutine(UIManager.Instance.DeactiveDeathScene());
+        Player.Instance.Respawned();
+    }
+
 }

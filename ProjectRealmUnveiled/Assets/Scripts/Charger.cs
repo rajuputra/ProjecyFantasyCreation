@@ -118,6 +118,15 @@ public class Charger : Enemy
         rb.gravityScale = 12f;
     }
 
+    protected override void Update()
+    {
+        base.Update();
+        base.Update();
+        if (!Player.Instance.aState.alive)
+        {
+            ChangeState(EnemyStates.Charger_Idle);
+        }
+    }
     private void OnCollisionEnter2D(Collision2D _collision)
     {
         if (_collision.gameObject.CompareTag("Enemy"))

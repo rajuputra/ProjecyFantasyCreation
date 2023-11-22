@@ -2,8 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RespawnPoint : MonoBehaviour
+public class SetSpawnPoint : MonoBehaviour
 {
+    public bool interacted;
     // Start is called before the first frame update
     void Start()
     {
@@ -16,11 +17,11 @@ public class RespawnPoint : MonoBehaviour
         
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    private void OnTriggerStay2D(Collider2D _collision)
     {
-        if (collision.CompareTag("Player"))
+        if (_collision.CompareTag("Player") && Input.GetButtonDown("Interact"))
         {
-            GameManager.Instance.platformingRespawnPoint = transform.position;
+            interacted = true;
         }
     }
 }

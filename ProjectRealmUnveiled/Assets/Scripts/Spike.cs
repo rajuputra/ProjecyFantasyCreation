@@ -33,7 +33,7 @@ public class Spike : MonoBehaviour
         StartCoroutine(UIManager.Instance.sceneFader.Fade(SceneFader.FadeDirection.In));
         Player.Instance.TakeDamage(1);
         yield return new WaitForSeconds(1);
-        Player.Instance.transform.position = GameManager.Instance.alexRespawnPoint;
+        Player.Instance.transform.position = GameManager.Instance.platformingRespawnPoint;
         StartCoroutine(UIManager.Instance.sceneFader.Fade(SceneFader.FadeDirection.Out));
         yield return new WaitForSeconds(UIManager.Instance.sceneFader.fadeTime);
         Player.Instance.aState.cutscene = false;
