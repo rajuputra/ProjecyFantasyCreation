@@ -20,6 +20,7 @@ public class Shade : Enemy
         {
             Instance = this;
         }
+        SaveData.Instance.SaveShadeData();
     }
 
     // Start is called before the first frame update
@@ -95,6 +96,7 @@ public class Shade : Enemy
         rb.gravityScale = 12;
         base.Death(_destroyTime);
     }
+
     protected override void ChangeCurrentAnimation()
     {
         if(GetCurrentEnemyState == EnemyStates.Shade_Idle)
@@ -108,6 +110,7 @@ public class Shade : Enemy
         if (GetCurrentEnemyState == EnemyStates.Shade_Death)
         {
             Player.Instance.RestoredMana();
+            SaveData.Instance.SavePlayerData();
             anim.SetTrigger("Death");
             Destroy(gameObject);
         }

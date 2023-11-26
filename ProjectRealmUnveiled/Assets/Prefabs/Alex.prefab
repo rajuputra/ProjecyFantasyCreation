@@ -100,6 +100,7 @@ Transform:
   m_Children:
   - {fileID: 84450658570682864}
   - {fileID: 8199181739895438679}
+  - {fileID: 8661451321848818884}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &473164896481025296
@@ -243,6 +244,13 @@ MonoBehaviour:
   jumpBufferFrames: 8
   coyoteTime: 0.1
   maxAirJumps: 1
+  wallSlidingSpeed: 2
+  wallCheck: {fileID: 8661451321848818884}
+  wallLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  wallJumpingDuration: 0
+  wallJumpingPower: {x: 0, y: 0}
   groundCheckPoint: {fileID: 84450658570682864}
   groundCheckY: 0.3
   groundCheckX: 0.3
@@ -258,6 +266,7 @@ MonoBehaviour:
   attackableLayer:
     serializedVersion: 2
     m_Bits: 128
+  timeBetweenAttack: 0
   damage: 1
   slashEffect: {fileID: 8302415208285548769, guid: a9f73d15a23e71942822a71f995e8899, type: 3}
   recoilXSteps: 3
@@ -271,6 +280,7 @@ MonoBehaviour:
   mana: 0.5
   manaDrainSpeed: 0.2
   manaGain: 0.3
+  halfMana: 0
   playerFallSpeedThtreshold: -10
   aState: {fileID: 0}
   rb: {fileID: 0}
@@ -350,3 +360,34 @@ CapsuleCollider2D:
   m_Offset: {x: -0.01, y: 0}
   m_Size: {x: 0.47, y: 1.04}
   m_Direction: 0
+--- !u!1 &5929220576964679129
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8661451321848818884}
+  m_Layer: 0
+  m_Name: WallCheck
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8661451321848818884
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5929220576964679129}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.245, y: -0.036, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 6994415312137689172}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

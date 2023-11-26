@@ -24,6 +24,16 @@ public class Player : MonoBehaviour
     private float gravity; //stores the gravity scale at start
     [Space(5)]
 
+    [Header("Wall Jump Settings")]
+    [SerializeField] private float wallSlidingSpeed = 2f;
+    [SerializeField] private Transform wallCheck;
+    [SerializeField] private LayerMask wallLayer;
+    [SerializeField] private float wallJumpingDuration;
+    [SerializeField] private Vector2 wallJumpingPower;
+    float wallJumpingDirection;
+    bool isWallSliding;
+    bool isWallJumping;
+    [Space(5)]
 
     [Header("Ground Check Settings:")]
     [SerializeField] private Transform groundCheckPoint; //point at which ground check happens
@@ -47,12 +57,14 @@ public class Player : MonoBehaviour
     [SerializeField] private Transform SideAttackTransform; //the middle of the side attack area
     [SerializeField] private Vector2 SideAttackArea; //how large the area of side attack is
     [SerializeField] private LayerMask attackableLayer; //the layer the player can attack and recoil off of
-    private float timeBetweenAttack, timeSinceAttck;
+    [SerializeField] private float timeBetweenAttack;
+    private float timeSinceAttck;
     [SerializeField] private float damage;
     [SerializeField] private GameObject slashEffect;
     bool restoreTime;
     float restoreTimeSpeed;
     [Space(5)]
+
 
     [Header("Recoil Settings:")]
     [SerializeField] private int recoilXSteps = 5;
@@ -60,9 +72,12 @@ public class Player : MonoBehaviour
     private int stepsXRecoiled;
     [Space(5)]
 
+
     [Header("Health Settings")]
     public int health;
     public int maxHealth;
+    public int maxTotalHealth = 10;
+    public int heartShards;
     [SerializeField] GameObject bloodSpurt;
     [SerializeField] float hitFlashSpeed;
     public delegate void OnHealthChangedDelegate();
@@ -76,11 +91,12 @@ public class Player : MonoBehaviour
     [SerializeField] float mana;
     [SerializeField] float manaDrainSpeed;
     [SerializeField] float manaGain;
-    bool halfMana;
+    public bool halfMana;
     [Space(5)]
 
     [Header("Camera Stuff")]
     [SerializeField] private float playerFallSpeedThtreshold = -10;
+
 
     [HideInInspector] public AlexStateList aState;
     private Animator anim;
@@ -95,6 +111,12 @@ public class Player : MonoBehaviour
 
 
     public static Player Instance;
+
+    //unlocking
+    public bool unlockedWallJump;
+    public bool unlockedDash;
+    public bool unlockedVarJump;
+
 
     private void Awake()
     {
@@ -119,10 +141,18 @@ public class Player : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         sr = GetComponent<SpriteRenderer>();
         anim = GetComponent<Animator>();
+
+        SaveData.Instance.LoadPlayerData();
+
         gravity = rb.gravityScale;
         Mana = mana;
         manaStorage.fillAmount = Mana;
-        Health = maxHealth;
+        
+
+        if (halfMana)
+        {
+            UIManager.Instance.SwitchMana(UIManager.ManaState.HalfMana);
+        }
     }
 
     private void OnDrawGizmos()
@@ -152,10 +182,24 @@ public class Player : MonoBehaviour
         if (aState.dashing ) return;
         if (aState.alive)
         {
-            Facing();
-            Move();
-            Jump();
-            StartDash();
+            if(!isWallJumping)
+            {
+                Facing();
+                Move();
+                Jump();
+            }
+
+            if (unlockedWallJump)
+            {
+                WallSlide();
+                WallJump();
+            }
+
+            if (unlockedDash)
+            {
+                StartDash();
+            }
+            
             Attack();
             Heal();
         }        
@@ -250,13 +294,14 @@ public class Player : MonoBehaviour
         {
             timeSinceAttck = 0;
             anim.SetTrigger("Attack");
+            Instantiate(slashEffect, SideAttackTransform);
 
             if (yAxis == 0 || yAxis < 0 && Grounded())
             {
                 int _recoilLeftOrRight = aState.lookingRight ? 1 : -1;
 
                 Hit(SideAttackTransform, SideAttackArea, ref aState.recoilingX,Vector2.right * _recoilLeftOrRight ,recoilXSpeed);
-                Instantiate(slashEffect, SideAttackTransform);
+                
             }
             
         }
@@ -480,7 +525,7 @@ public class Player : MonoBehaviour
         }
     }
 
-    float Mana
+    public float Mana
     {
         get { return mana; }
         set
@@ -540,7 +585,7 @@ public class Player : MonoBehaviour
 
             aState.jumping = true;
         }
-        else if (!Grounded() && airJumpCounter < maxAirJumps && Input.GetButtonDown("Jump"))
+        else if (!Grounded() && airJumpCounter < maxAirJumps && Input.GetButtonDown("Jump") && unlockedVarJump)
         {
             aState.jumping = true;
 
@@ -581,6 +626,59 @@ public class Player : MonoBehaviour
         {
             jumpBufferCounter--;
         }
+    }
+
+    private bool Walled()
+    {
+        return Physics2D.OverlapCircle(wallCheck.position, 0.2f, wallLayer);
+    }
+
+    void WallSlide()
+    {
+        if(Walled() && !Grounded() && xAxis != 0 )
+        {
+            isWallSliding = true;
+            rb.velocity = new Vector2(rb.velocity.x, Mathf.Clamp(rb.velocity.y, -wallSlidingSpeed, float.MaxValue));
+        }
+        else
+        {
+            isWallSliding = false;
+        }
+    }
+
+    void WallJump()
+    {
+        if(isWallSliding)
+        {
+            isWallJumping = false;
+            wallJumpingDirection = !aState.lookingRight ? 1 : -1;
+
+            CancelInvoke(nameof(StopWallJumping));
+        }
+
+        if(Input.GetButtonDown("Jump") && isWallSliding)
+        {
+            isWallJumping = true;
+            rb.velocity = new Vector2(wallJumpingDirection * wallJumpingPower.x , wallJumpingPower.y);
+
+            dashed = false;
+            airJumpCounter = 0;
+
+            if(aState.lookingRight && transform.eulerAngles.y == 0 || (!aState.lookingRight && transform.eulerAngles.y != 0))
+            {
+                aState.lookingRight = !aState.lookingRight;
+                int _yRotation = aState.lookingRight ? 0 : 180;
+
+                transform.eulerAngles = new Vector2(transform.eulerAngles.x, _yRotation);
+            }
+
+            Invoke(nameof(StopWallJumping), wallJumpingDuration);
+        }
+    }
+
+    void StopWallJumping()
+    {
+        isWallJumping = false;
     }
 
     public IEnumerator WalkIntoNewScene(Vector2 _exitDir, float _delay)

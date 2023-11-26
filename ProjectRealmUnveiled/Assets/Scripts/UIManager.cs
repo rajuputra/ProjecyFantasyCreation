@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class UIManager : MonoBehaviour
 {
-    public static UIManager Instance;
+    
     public SceneFader sceneFader;
     [SerializeField] GameObject deathScreen;
     [SerializeField] GameObject halfMana, fullMana;
@@ -15,6 +15,8 @@ public class UIManager : MonoBehaviour
         HalfMana
     }
     public ManaState manaState;
+
+    public static UIManager Instance;
     private void Awake()
     {
         if (Instance != null && Instance != this)
@@ -25,6 +27,10 @@ public class UIManager : MonoBehaviour
         {
             Instance = this;
         }
+
+        if (Application.isPlaying)
+            UnityEditor.SceneVisibilityManager.instance.Show(gameObject, false);
+
         DontDestroyOnLoad(gameObject);
 
         sceneFader = GetComponentInChildren<SceneFader>();
