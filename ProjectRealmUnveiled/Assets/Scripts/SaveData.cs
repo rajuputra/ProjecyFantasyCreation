@@ -19,10 +19,12 @@ public struct SaveData
 
     //Player stuff
     public int playerHealth;
+    public int playerHeartShards;
     public float playerMana;
     public bool playerHalfMana;
     public Vector2 playerPosition;
     public string lastScene;
+    public int playerMaxHealth;
 
     public bool playerUnlockedWallJump;
     public bool playerUnlockedDash;
@@ -86,7 +88,12 @@ public struct SaveData
         {
             playerHealth = Player.Instance.Health;
             writer.Write(playerHealth);
-            
+
+            playerHeartShards = Player.Instance.heartShards;
+            writer.Write(playerHeartShards);
+
+            playerMaxHealth = Player.Instance.maxHealth;
+            writer.Write(playerMaxHealth);
 
             playerMana = Player.Instance.Mana;
             writer.Write(playerMana);
@@ -119,6 +126,8 @@ public struct SaveData
             using(BinaryReader reader = new BinaryReader(File.OpenRead(Application.persistentDataPath + "/save.player.data")))
             {
                 playerHealth = reader.ReadInt32();
+                playerHeartShards = reader.ReadInt32();
+                playerMaxHealth = reader.ReadInt32();
                 playerMana = reader.ReadSingle();
                 playerHalfMana = reader.ReadBoolean();
 
@@ -134,6 +143,8 @@ public struct SaveData
                 Player.Instance.transform.position = playerPosition;
                 Player.Instance.halfMana = playerHalfMana;
                 Player.Instance.Health = playerHealth;
+                Player.Instance.heartShards = playerHeartShards;
+                Player.Instance.maxHealth = playerMaxHealth;
                 
                 Player.Instance.Mana = playerMana;
 
@@ -147,7 +158,10 @@ public struct SaveData
             Debug.Log("File doesn't exist");
             Player.Instance.halfMana = false;
             Player.Instance.Health = Player.Instance.maxHealth;
+            Player.Instance.maxHealth = 5;
             Player.Instance.Mana = 0.5f;
+
+            Player.Instance.heartShards = 0;
             Player.Instance.unlockedWallJump = false;
             Player.Instance.unlockedDash = false;
         }

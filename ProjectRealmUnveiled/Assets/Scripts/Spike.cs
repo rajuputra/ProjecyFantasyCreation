@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Spike : MonoBehaviour
 {
+    
     // Start is called before the first frame update
     void Start()
     {
@@ -16,28 +17,15 @@ public class Spike : MonoBehaviour
         
     }
 
-    private void OnTriggerEnter2D(Collider2D _other)
+    
+
+    private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (_other.CompareTag("Player"))
+        if (collision.gameObject.CompareTag("Player"))
         {
-            StartCoroutine(RespawnPoint());
+            StartCoroutine(Player.Instance.DeathSpike());
         }
     }
 
-    IEnumerator RespawnPoint()
-    {
-        Player.Instance.aState.cutscene = true;
-        Player.Instance.aState. invincible = true;
-        Player.Instance.rb.velocity = Vector2.zero;
-        Time.timeScale = 0;
-        StartCoroutine(UIManager.Instance.sceneFader.Fade(SceneFader.FadeDirection.In));
-        Player.Instance.TakeDamage(1);
-        yield return new WaitForSeconds(1);
-        Player.Instance.transform.position = GameManager.Instance.platformingRespawnPoint;
-        StartCoroutine(UIManager.Instance.sceneFader.Fade(SceneFader.FadeDirection.Out));
-        yield return new WaitForSeconds(UIManager.Instance.sceneFader.fadeTime);
-        Player.Instance.aState.cutscene = false;
-        Player.Instance.aState.invincible = false;
-        Time.timeScale = 1;
-    }
+
 }

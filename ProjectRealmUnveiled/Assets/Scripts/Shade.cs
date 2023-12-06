@@ -101,10 +101,10 @@ public class Shade : Enemy
     {
         if(GetCurrentEnemyState == EnemyStates.Shade_Idle)
         {
-            anim.Play("Alex_IDLE");
+            anim.Play("Shadow_Idle");
         }
 
-        anim.SetBool("Walking", GetCurrentEnemyState == EnemyStates.Shade_Chase);
+        anim.SetBool("Chase", GetCurrentEnemyState == EnemyStates.Shade_Chase);
 
 
         if (GetCurrentEnemyState == EnemyStates.Shade_Death)
@@ -112,7 +112,7 @@ public class Shade : Enemy
             Player.Instance.RestoredMana();
             SaveData.Instance.SavePlayerData();
             anim.SetTrigger("Death");
-            Destroy(gameObject);
+            Destroy(gameObject,1f);
         }
     }
 

@@ -5,11 +5,12 @@ using UnityEngine.SceneManagement;
 
 public class SaveStuff : MonoBehaviour
 {
+    private Animator anim;
     public bool interacted;
     // Start is called before the first frame update
     void Start()
     {
-        
+        anim = GetComponent<Animator>();
     }
 
     // Update is called once per frame
@@ -22,7 +23,9 @@ public class SaveStuff : MonoBehaviour
     {
         if (_collision.CompareTag("Player") && Input.GetButtonDown("Interact"))
         {
+            anim.SetBool("Interacted", true);
             interacted = true;
+            
 
             SaveData.Instance.saveStuffSceneName = SceneManager.GetActiveScene().name;
             SaveData.Instance.saveStuffPos = new Vector2(gameObject.transform.position.x, gameObject.transform.position.y);
@@ -37,7 +40,9 @@ public class SaveStuff : MonoBehaviour
     {
         if (_collision.CompareTag("Player"))
         {
+            anim.SetBool("Interacted", false);
             interacted = false;
+            
         }
     }
 }

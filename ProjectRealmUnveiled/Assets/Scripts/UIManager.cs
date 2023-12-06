@@ -64,6 +64,16 @@ public class UIManager : MonoBehaviour
 
     }
 
+    public IEnumerator ActiveDeathScreenSpike()
+    {
+        StartCoroutine(sceneFader.Fade(SceneFader.FadeDirection.In));
+        yield return new WaitForSeconds(0.5f);
+        deathScreen.SetActive(true);
+
+    }
+
+
+
     public IEnumerator DeactiveDeathScene()
     {
         yield return new WaitForSeconds(0.5f);

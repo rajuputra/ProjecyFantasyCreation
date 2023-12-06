@@ -72,7 +72,18 @@ public class GameManager : MonoBehaviour
         
         Player.Instance.transform.position = respawnPoint;
         StartCoroutine(UIManager.Instance.DeactiveDeathScene());
-        Player.Instance.Respawned();
+
+        if (Player.Instance.deathCauseSpike)
+        {
+            Player.Instance.deathCauseSpike = false;
+            Player.Instance.RespawnedFromSpike();
+            
+        }
+        else
+        {
+            Player.Instance.Respawned();
+        }
+        
         StartCoroutine(SaveAfterDeath());
         
     }

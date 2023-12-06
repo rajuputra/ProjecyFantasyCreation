@@ -76,7 +76,7 @@ public class Player : MonoBehaviour
     [Header("Health Settings")]
     public int health;
     public int maxHealth;
-    public int maxTotalHealth = 10;
+    public int maxTotalHealth = 7;
     public int heartShards;
     [SerializeField] GameObject bloodSpurt;
     [SerializeField] float hitFlashSpeed;
@@ -96,6 +96,9 @@ public class Player : MonoBehaviour
 
     [Header("Camera Stuff")]
     [SerializeField] private float playerFallSpeedThtreshold = -10;
+    /*[SerializeField] private GameObject _cameraFollowGo;
+
+    private CameraFollowObject _cameraFollowObject;*/
 
 
     [HideInInspector] public AlexStateList aState;
@@ -108,16 +111,16 @@ public class Player : MonoBehaviour
     private bool attack = false;
 
     private bool canFlash = true;
-
+    public bool deathCauseSpike = false;
 
     public static Player Instance;
 
     //unlocking
-    public bool unlockedWallJump;
-    public bool unlockedDash;
-    public bool unlockedVarJump;
+    [HideInInspector] public bool unlockedWallJump;
+    [HideInInspector] public bool unlockedDash;
+    [HideInInspector] public bool unlockedVarJump;
 
-
+    [HideInInspector] public bool isFacingRight;
     private void Awake()
     {
         if (Instance != null && Instance != this)
@@ -141,7 +144,7 @@ public class Player : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         sr = GetComponent<SpriteRenderer>();
         anim = GetComponent<Animator>();
-
+        /*_cameraFollowObject = _cameraFollowGo.GetComponent<CameraFollowObject>();*/
         SaveData.Instance.LoadPlayerData();
 
         gravity = rb.gravityScale;
@@ -169,6 +172,8 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        SetScene();
+        ResetPlayerData();
         if (aState.cutscene) return;
         if(aState.alive)
         {
@@ -177,34 +182,48 @@ public class Player : MonoBehaviour
         RestoreTimeScale();
         UpdateJumpVariables();
         UpdateCameraYDampForPlayerFall();
-        
+
 
         if (aState.dashing ) return;
         if (aState.alive)
         {
-            if(!isWallJumping)
+            if(DialogueManager.Instance.isDialogueActive)
             {
-                Facing();
-                Move();
-                Jump();
+                DialogueActive();
+                anim.SetBool("Dialogue", true);
             }
+            else if (!DialogueManager.Instance.isDialogueActive)
+            {
+                anim.SetBool("Dialogue", false);
+                if (!isWallJumping)
+                {
+                    Facing();
+                    Move();
+                    Jump();
+                }
 
-            if (unlockedWallJump)
-            {
-                WallSlide();
-                WallJump();
-            }
+                if (unlockedWallJump)
+                {
+                    WallSlide();
+                    WallJump();
+                }
 
-            if (unlockedDash)
-            {
-                StartDash();
-            }
-            
-            Attack();
-            Heal();
+                if (unlockedDash)
+                {
+                    StartDash();
+                }
+
+                Attack();
+                Heal();
+            }         
         }        
         FlashWhileInvincible();
 
+    }
+    void DialogueActive()
+    {
+        rb.velocity= new Vector2(0 , 0);
+        
     }
 
     private void FixedUpdate()
@@ -221,21 +240,43 @@ public class Player : MonoBehaviour
         yAxis = Input.GetAxisRaw("Vertical");
         attack = Input.GetButtonDown("Attack");
     }
+    
+    
 
     void Facing()
     {
         if (xAxis < 0)
         {
-            transform.localScale = new Vector2(-1, transform.localScale.y);
+            Vector3 rotator = new Vector3(transform.rotation.x, 180f, transform.rotation.z);
+            transform.rotation = Quaternion.Euler(rotator);
             aState.lookingRight = false;
+            isFacingRight = aState.lookingRight;
+            /*_cameraFollowObject.CallTurn();*/
         }
         else if (xAxis > 0)
         {
-            transform.localScale = new Vector2(1, transform.localScale.y);
+            Vector3 rotator = new Vector3(transform.rotation.x, 0f, transform.rotation.z);
+            transform.rotation = Quaternion.Euler(rotator);
             aState.lookingRight = true;
+            isFacingRight = aState.lookingRight;
+            /*_cameraFollowObject.CallTurn();*/
         }
     }
 
+    private void ResetPlayerData()
+    {
+        if(Input.GetKeyDown(KeyCode.O))
+        {
+            Debug.Log("Ability berhasil di reset !");
+            unlockedDash = false;
+            unlockedVarJump = false;
+            unlockedWallJump = false;
+
+            maxHealth = 5;
+            SaveData.Instance.SavePlayerData();
+
+        }
+    }
     private void Move()
     {
         rb.velocity = new Vector2(walkSpeed * xAxis, rb.velocity.y);
@@ -428,6 +469,26 @@ public class Player : MonoBehaviour
         yield return new WaitForSeconds(_delay);
     }
 
+    void SetScene()
+    {
+        
+        if (Input.GetKeyDown(KeyCode.Alpha1))
+        {
+            SaveData.Instance.sceneNames.Add("Chapter1-1");
+        }
+
+        else if (Input.GetKeyDown(KeyCode.Alpha2))
+        {
+            SaveData.Instance.sceneNames.Add("Chapter1-2");
+        }
+
+        else if (Input.GetKeyDown(KeyCode.Alpha3))
+        {
+            SaveData.Instance.sceneNames.Add("Chapter1-3");
+            Debug.Log("Ganti Scene");
+        }
+    }
+
     IEnumerator Death()
     {
         aState.alive = false;
@@ -443,6 +504,19 @@ public class Player : MonoBehaviour
         Instantiate(GameManager.Instance.shade, transform.position, Quaternion.identity);
     }
 
+    public IEnumerator DeathSpike()
+    {
+        deathCauseSpike = true;
+        aState.alive = false;
+        Time.timeScale = 1;
+        GameObject _bloodSpurtParticles = Instantiate(bloodSpurt, transform.position, Quaternion.identity);
+        Destroy(_bloodSpurtParticles, 1.5f);
+        anim.SetTrigger("Death");
+
+        yield return new WaitForSeconds(0.5f);
+        StartCoroutine(UIManager.Instance.ActiveDeathScreenSpike());
+    }
+
     public void Respawned()
     {
         if (!aState.alive)
@@ -450,6 +524,17 @@ public class Player : MonoBehaviour
             aState.alive = true;
             halfMana = true;
             UIManager.Instance.SwitchMana(UIManager.ManaState.HalfMana);
+            Mana = 0;
+            Health = maxHealth;
+            anim.Play("Alex_IDLE");
+        }
+    }
+
+    public void RespawnedFromSpike()
+    {
+        if (!aState.alive)
+        {
+            aState.alive = true;
             Mana = 0;
             Health = maxHealth;
             anim.Play("Alex_IDLE");
@@ -646,7 +731,7 @@ public class Player : MonoBehaviour
         }
     }
 
-    void WallJump()
+    /*void WallJump()
     {
         if(isWallSliding)
         {
@@ -671,6 +756,33 @@ public class Player : MonoBehaviour
 
                 transform.eulerAngles = new Vector2(transform.eulerAngles.x, _yRotation);
             }
+
+            Invoke(nameof(StopWallJumping), wallJumpingDuration);
+        }
+    }*/
+
+    void WallJump()
+    {
+        if (isWallSliding)
+        {
+            isWallJumping = false;
+            wallJumpingDirection = !aState.lookingRight ? 1 : -1;
+
+            CancelInvoke(nameof(StopWallJumping));
+        }
+
+        if (Input.GetButtonDown("Jump") && isWallSliding)
+        {
+            isWallJumping = true;
+            rb.velocity = new Vector2(wallJumpingDirection * wallJumpingPower.x, wallJumpingPower.y);
+
+            dashed = false;
+            airJumpCounter = 0;
+
+            // Flip the character by changing its local scale
+            Vector3 newScale = transform.localScale;
+            newScale.x *= -1;
+            transform.localScale = newScale;
 
             Invoke(nameof(StopWallJumping), wallJumpingDuration);
         }

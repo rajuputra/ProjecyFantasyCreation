@@ -102,6 +102,7 @@ public class Enemy : MonoBehaviour
     {
         if (_other.gameObject.CompareTag("Player") && !Player.Instance.aState.invincible && !Player.Instance.aState.invincible && health > 0)
         {
+            CameraShake.instance.ShakeCamera(1.3f, 0.3f);
             Attack();
             if (Player.Instance.aState.alive)
             {
