@@ -9,4 +9,8 @@ public class MainMenu : MonoBehaviour
     {
         SceneManager.LoadScene("Chapter1-1");
     }
+    public void QuitToMainMenu()
+    {
+        SceneManager.LoadScene("MainMenu");
+    }
 }

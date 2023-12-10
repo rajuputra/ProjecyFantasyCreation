@@ -13,6 +13,8 @@ public class GameManager : MonoBehaviour
 
     public GameObject shade;
 
+
+
     public static GameManager Instance { get; private set; }
     private void Awake()
     {
@@ -41,8 +43,6 @@ public class GameManager : MonoBehaviour
         DontDestroyOnLoad(gameObject);
         saveStuff = FindObjectOfType<SaveStuff>();
     }
-
-    
 
     public void SaveScene()
     {

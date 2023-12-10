@@ -99,12 +99,21 @@ public class Player : MonoBehaviour
     /*[SerializeField] private GameObject _cameraFollowGo;
 
     private CameraFollowObject _cameraFollowObject;*/
+    [Space(5)]
+
+    [Header("Audio")]
+    [SerializeField] AudioClip jumpSound;
+    [SerializeField] AudioClip hitSound;
+    [SerializeField] AudioClip dashSound;
+    [SerializeField] AudioClip attackSound;
+    [SerializeField] AudioClip deathSound;
 
 
     [HideInInspector] public AlexStateList aState;
     private Animator anim;
     public Rigidbody2D rb;
     private SpriteRenderer sr;
+    private AudioSource audioSource;
 
     //Input Variables
     private float xAxis, yAxis;
@@ -144,8 +153,9 @@ public class Player : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         sr = GetComponent<SpriteRenderer>();
         anim = GetComponent<Animator>();
+        audioSource = GetComponent<AudioSource>();
         /*_cameraFollowObject = _cameraFollowGo.GetComponent<CameraFollowObject>();*/
-        SaveData.Instance.LoadPlayerData();
+        /*SaveData.Instance.LoadPlayerData();*/
 
         gravity = rb.gravityScale;
         Mana = mana;
@@ -317,6 +327,7 @@ public class Player : MonoBehaviour
         canDash = false;
         aState.dashing = true;
         anim.SetTrigger("Dashing");
+        audioSource.PlayOneShot(dashSound);
         rb.gravityScale = 0;
         int _dir = aState.lookingRight ? 1 : -1;
         rb.velocity = new Vector2(_dir * dashSpeed, 0);
@@ -335,6 +346,7 @@ public class Player : MonoBehaviour
         {
             timeSinceAttck = 0;
             anim.SetTrigger("Attack");
+            audioSource.PlayOneShot(attackSound);
             Instantiate(slashEffect, SideAttackTransform);
 
             if (yAxis == 0 || yAxis < 0 && Grounded())
@@ -362,6 +374,7 @@ public class Player : MonoBehaviour
             if (objectsToHit[i].GetComponent<Enemy>() != null)
             {
                 objectsToHit[i].GetComponent<Enemy>().EnemyGetsHit(damage, _recoilDir, _recoilStrength);
+                audioSource.PlayOneShot(hitSound);
 
                 if (objectsToHit[i].CompareTag("Enemy"))
                 {
@@ -406,6 +419,8 @@ public class Player : MonoBehaviour
     {
         if(aState.alive)
         {
+            audioSource.PlayOneShot(hitSound);
+
             Health -= Mathf.RoundToInt(_damage);
             if(Health <= 0)
             {
@@ -496,6 +511,7 @@ public class Player : MonoBehaviour
         GameObject _bloodSpurtParticles = Instantiate(bloodSpurt, transform.position, Quaternion.identity);
         Destroy(_bloodSpurtParticles, 1.5f);
         anim.SetTrigger("Death");
+        audioSource.PlayOneShot(deathSound);
 
         yield return new WaitForSeconds(0.9f);
         StartCoroutine(UIManager.Instance.ActiveDeathScreen());
@@ -666,12 +682,16 @@ public class Player : MonoBehaviour
         
         if (jumpBufferCounter > 0 && coyoteTimeCounter > 0 && !aState.jumping)
         {
+            audioSource.PlayOneShot(jumpSound);
+
             rb.velocity = new Vector3(rb.velocity.x, jumpForce);
 
             aState.jumping = true;
         }
         else if (!Grounded() && airJumpCounter < maxAirJumps && Input.GetButtonDown("Jump") && unlockedVarJump)
         {
+            audioSource.PlayOneShot(jumpSound);
+
             aState.jumping = true;
 
             airJumpCounter++;

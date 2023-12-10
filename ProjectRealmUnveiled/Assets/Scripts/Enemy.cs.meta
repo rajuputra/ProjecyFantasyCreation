@@ -3,7 +3,9 @@ guid: 7bf2d741596cf4442a6e697353c1a6f7
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - PurpleBlood: {instanceID: 0}
+  - hitSound: {fileID: 8300000, guid: 060014a163421f640a9e8ac93084a7a4, type: 3}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 
