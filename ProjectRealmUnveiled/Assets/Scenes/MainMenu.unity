@@ -1647,6 +1647,18 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
+        - m_Target: {fileID: 1531978601}
+          m_TargetAssemblyTypeName: UIAudio, Assembly-CSharp
+          m_MethodName: SoundOnHover
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
   - eventID: 1
     callback:
       m_PersistentCalls:
@@ -1924,6 +1936,7 @@ GameObject:
   - component: {fileID: 804963759}
   - component: {fileID: 804963758}
   - component: {fileID: 804963757}
+  - component: {fileID: 804963760}
   m_Layer: 5
   m_Name: Back
   m_TagString: Untagged
@@ -2068,6 +2081,35 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 804963755}
   m_CullTransparentMesh: 1
+--- !u!114 &804963760
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 804963755}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates:
+  - eventID: 0
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 1531978601}
+          m_TargetAssemblyTypeName: UIAudio, Assembly-CSharp
+          m_MethodName: SoundOnHover
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!1 &808547360
 GameObject:
   m_ObjectHideFlags: 0
@@ -3251,6 +3293,18 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
+        - m_Target: {fileID: 1531978601}
+          m_TargetAssemblyTypeName: UIAudio, Assembly-CSharp
+          m_MethodName: SoundOnHover
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
   - eventID: 1
     callback:
       m_PersistentCalls:
@@ -3689,6 +3743,18 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
+        - m_Target: {fileID: 1531978601}
+          m_TargetAssemblyTypeName: UIAudio, Assembly-CSharp
+          m_MethodName: SoundOnHover
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
   - eventID: 1
     callback:
       m_PersistentCalls:
@@ -4003,6 +4069,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c5c07aae839ddf41941792be117f00f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hover: {fileID: 8300000, guid: ff464ee1a3993954c9744fe62675b50f, type: 3}
   click: {fileID: 8300000, guid: 1e5a8eb9c50315b4d840e3c8fcb7dfee, type: 3}
 --- !u!82 &1531978602
 AudioSource:
@@ -4557,8 +4624,8 @@ MonoBehaviour:
   m_ShadowVolumeIntensityEnabled: 0
   m_ShadowVolumeIntensity: 0.75
   m_LocalBounds:
-    m_Center: {x: 1.2003021, y: 0.387352, z: 0}
-    m_Extent: {x: 230.804, y: 230.72806, z: 0}
+    m_Center: {x: 1.2009506, y: 0.39204407, z: 0}
+    m_Extent: {x: 230.80536, y: 230.72905, z: 0}
   m_PointLightInnerAngle: 360
   m_PointLightOuterAngle: 360
   m_PointLightInnerRadius: 0
@@ -5556,6 +5623,18 @@ MonoBehaviour:
         - m_Target: {fileID: 1991056828}
           m_TargetAssemblyTypeName: HoverButton, Assembly-CSharp
           m_MethodName: Show
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+        - m_Target: {fileID: 1531978601}
+          m_TargetAssemblyTypeName: UIAudio, Assembly-CSharp
+          m_MethodName: SoundOnHover
           m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}

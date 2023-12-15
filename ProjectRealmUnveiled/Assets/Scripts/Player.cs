@@ -107,6 +107,8 @@ public class Player : MonoBehaviour
     [SerializeField] AudioClip dashSound;
     [SerializeField] AudioClip attackSound;
     [SerializeField] AudioClip deathSound;
+    [SerializeField] AudioClip footstepsSound;
+    [SerializeField] AudioClip healSound;
 
 
     [HideInInspector] public AlexStateList aState;
@@ -114,11 +116,14 @@ public class Player : MonoBehaviour
     public Rigidbody2D rb;
     private SpriteRenderer sr;
     private AudioSource audioSource;
+    private float nextFootstepTime;
 
     //Input Variables
     private float xAxis, yAxis;
     private bool attack = false;
+    public float footstepInterval = 0f;
 
+    //Heal Variables
     private bool canFlash = true;
     public bool deathCauseSpike = false;
 
@@ -154,6 +159,9 @@ public class Player : MonoBehaviour
         sr = GetComponent<SpriteRenderer>();
         anim = GetComponent<Animator>();
         audioSource = GetComponent<AudioSource>();
+        audioSource = gameObject.AddComponent<AudioSource>();
+        audioSource.loop = true; // Mengatur AudioSource agar dapat diulang (loop)
+        audioSource.clip = healSound;
         /*_cameraFollowObject = _cameraFollowGo.GetComponent<CameraFollowObject>();*/
         SaveData.Instance.LoadPlayerData();
 
@@ -191,10 +199,10 @@ public class Player : MonoBehaviour
         {
             GetInputs();
         }
+
         RestoreTimeScale();
         UpdateJumpVariables();
         UpdateCameraYDampForPlayerFall();
-
 
         if (aState.dashing ) return;
         if (aState.alive)
@@ -224,6 +232,7 @@ public class Player : MonoBehaviour
                 {
                     StartDash();
                 }
+
 
                 Attack();
                 Heal();
@@ -262,9 +271,23 @@ public class Player : MonoBehaviour
         xAxis = Input.GetAxisRaw("Horizontal");
         yAxis = Input.GetAxisRaw("Vertical");
         attack = Input.GetButtonDown("Attack");
+        
+        if ((xAxis != 0f || yAxis != 0f) && Time.time >= nextFootstepTime)
+        {
+            PlayFootstepSound();
+            nextFootstepTime = Time.time + footstepInterval;
+        }
     }
-    
-    
+
+    void PlayFootstepSound()
+    {
+        // Memeriksa apakah audio source sudah tersedia
+        if (audioSource != null && footstepsSound != null)
+        {
+            // Memainkan suara langkah
+            audioSource.PlayOneShot(footstepsSound);
+        }
+    }
 
     void Facing()
     {
@@ -631,6 +654,10 @@ public class Player : MonoBehaviour
                 if (onHealthChangedCallback != null)
                 {
                     onHealthChangedCallback.Invoke();
+                    /*if (health == maxHealth)
+                    {
+                        StopHealAudio();
+                    }*/
                 }
             }
         }
@@ -642,6 +669,11 @@ public class Player : MonoBehaviour
         {
             aState.healing = true;
             anim.SetBool("Healing", true);
+
+            if (!audioSource.isPlaying)
+            {
+                PlayHealAudio();
+            }
 
             //healing
             healTimer += Time.deltaTime;
@@ -657,8 +689,24 @@ public class Player : MonoBehaviour
             aState.healing = false;
             anim.SetBool("Healing", false);
             healTimer = 0;
+            /*if (!Input.GetButton("Healing") || Health == maxHealth)
+            {
+                StopHealAudio();
+            }*/
         }
     }
+
+    void PlayHealAudio()
+    {
+        // Memulai pemutaran audio
+        if (audioSource != null && healSound != null)
+        {
+            audioSource.clip = healSound;
+            audioSource.loop = true;
+            audioSource.PlayOneShot(healSound);
+        }
+    }
+
 
     public float Mana
     {
