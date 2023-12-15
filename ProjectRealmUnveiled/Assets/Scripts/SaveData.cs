@@ -211,4 +211,26 @@ public struct SaveData
             Debug.Log("Debug doesn't exist");
         }
     }
+
+    public static void ClearSavedData()
+    {
+        string saveStuffPath = Application.persistentDataPath + "/save.savestuff.data";
+        string playerDataPath = Application.persistentDataPath + "/save.player.data";
+        string shadeDataPath = Application.persistentDataPath + "/save.shade.data";
+
+        if (File.Exists(saveStuffPath))
+        {
+            File.Delete(saveStuffPath);
+        }
+
+        if (File.Exists(playerDataPath))
+        {
+            File.Delete(playerDataPath);
+        }
+
+        if (File.Exists(shadeDataPath))
+        {
+            File.Delete(shadeDataPath);
+        }
+    }
 }

@@ -366,6 +366,7 @@ GameObject:
   - component: {fileID: 7650587473909441359}
   - component: {fileID: 330721778726957867}
   - component: {fileID: 4845293446524143536}
+  - component: {fileID: 2883182557441094107}
   m_Layer: 0
   m_Name: Unlock Var Jump
   m_TagString: Untagged
@@ -410,7 +411,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  - {fileID: 2100000, guid: 7f328336914b28643931e69d58ca0460, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -431,7 +432,7 @@ SpriteRenderer:
   m_SortingLayerID: -1458900807
   m_SortingLayer: 4
   m_SortingOrder: 0
-  m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
+  m_Sprite: {fileID: -924092355, guid: deade17a38f21b14ab730d9eb2c66d8c, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -518,6 +519,27 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   particle: {fileID: 653371464552184149, guid: 8fb1022d10c88874b8a3df431f92cee1, type: 3}
   canvasUI: {fileID: 5598389479129214111}
+--- !u!95 &2883182557441094107
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2562074387857769274}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: b0358fb43e5f5644ba69a52babaf4194, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &5598389479129214111
 GameObject:
   m_ObjectHideFlags: 0

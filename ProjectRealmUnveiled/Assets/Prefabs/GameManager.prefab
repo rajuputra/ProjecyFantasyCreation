@@ -10,6 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 5837287129958990249}
   - component: {fileID: 8407630718711325382}
+  - component: {fileID: 8172798456579297552}
+  - component: {fileID: 7891175839389638173}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -47,5 +49,30 @@ MonoBehaviour:
   transitionedFromScene: 
   platformingRespawnPoint: {x: 0, y: 0}
   respawnPoint: {x: 0, y: 0}
-  setspawn: {fileID: 0}
+  saveStuff: {fileID: 0}
   shade: {fileID: 4205742217016815626, guid: 2a112795f6232934a81de225b6c7287c, type: 3}
+--- !u!114 &8172798456579297552
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5913782055351121570}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 198feff0d04c6bf4789870c1e1d7612d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  PauseMenu: {fileID: 0}
+--- !u!114 &7891175839389638173
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5913782055351121570}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c64a53dfe79b9e647be1e9f03f1aa4fd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

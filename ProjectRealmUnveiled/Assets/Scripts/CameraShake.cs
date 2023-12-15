@@ -2,7 +2,7 @@ using System.Collections;
 using UnityEngine;
 using Cinemachine;
 using System.Threading;
-using TreeEditor;
+
 
 public class CameraShake : MonoBehaviour
 {

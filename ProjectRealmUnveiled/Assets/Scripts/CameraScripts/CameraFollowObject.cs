@@ -6,7 +6,7 @@ public class CameraFollowObject : MonoBehaviour
 {
     [Header("References")]
     [SerializeField] private Transform _playerTransform;
-
+    public AlexStateList aState;
     [Header("Flip Rotation Stats")]
     [SerializeField] private float _flipYRotationTime = 0.5f;
 
@@ -28,7 +28,7 @@ public class CameraFollowObject : MonoBehaviour
         DontDestroyOnLoad(gameObject);
 
         _player = _playerTransform.gameObject.GetComponent<Player>();
-        _isFacingRight = _player.isFacingRight;
+        _isFacingRight = aState.lookingRight;
     }
 
     private void Update()
@@ -38,9 +38,9 @@ public class CameraFollowObject : MonoBehaviour
 
     public void CallTurn()
     {
-        //_turnCoroutine = StartCoroutine(FlipYLerp());
+        _turnCoroutine = StartCoroutine(FlipYLerp());
 
-        LeanTween.rotateY(gameObject, DeterminationRotation(), _flipYRotationTime).setEaseInOutSine();
+        //LeanTween.rotateY(gameObject, DeterminationRotation(), _flipYRotationTime).setEaseInOutSine();
     }
     public IEnumerator FlipYLerp()
     {

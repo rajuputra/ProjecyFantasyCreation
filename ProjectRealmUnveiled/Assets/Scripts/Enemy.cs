@@ -35,6 +35,11 @@ public class Enemy : MonoBehaviour
         Charger_Surprissed,
         Charger_Charge,
 
+        //Babi
+        Babi_Idle,
+        Babi_Tekejut,
+        Babi_Charge,
+
         //Shade
         Shade_Idle,
         Shade_Chase,
@@ -68,6 +73,7 @@ public class Enemy : MonoBehaviour
     // Update is called once per frame
     protected virtual void Update()
     {
+        if (pauseMenu.isPaused) return;
 
         if (isRecoiling)
         {
@@ -102,7 +108,7 @@ public class Enemy : MonoBehaviour
     {
         if (_other.gameObject.CompareTag("Player") && !Player.Instance.aState.invincible && !Player.Instance.aState.invincible && health > 0)
         {
-            CameraShake.instance.ShakeCamera(1.3f, 0.3f);
+            CameraShake.instance.ShakeCamera(1f, 0.2f);
             Attack();
             if (Player.Instance.aState.alive)
             {

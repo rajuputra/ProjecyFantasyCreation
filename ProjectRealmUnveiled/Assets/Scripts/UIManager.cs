@@ -1,6 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 
 public class UIManager : MonoBehaviour
 {
@@ -8,6 +11,9 @@ public class UIManager : MonoBehaviour
     public SceneFader sceneFader;
     [SerializeField] GameObject deathScreen;
     [SerializeField] GameObject halfMana, fullMana;
+
+    [SerializeField] AudioClip click;
+    AudioSource audioSource;
 
     public enum ManaState
     {
@@ -28,12 +34,24 @@ public class UIManager : MonoBehaviour
             Instance = this;
         }
 
+#if UNITY_EDITOR
         if (Application.isPlaying)
             UnityEditor.SceneVisibilityManager.instance.Show(gameObject, false);
+#endif
 
         DontDestroyOnLoad(gameObject);
 
         sceneFader = GetComponentInChildren<SceneFader>();
+
+        audioSource = GetComponent<AudioSource>();
+    }
+
+    public void SoundOnClick()
+    {
+        if (audioSource != null)
+        {
+            audioSource.PlayOneShot(click);
+        }
     }
 
     public void SwitchMana(ManaState _manaState)

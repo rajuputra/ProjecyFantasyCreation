@@ -21,6 +21,7 @@ public class RespawnPoint : MonoBehaviour
         if (collision.CompareTag("Player"))
         {
             GameManager.Instance.platformingRespawnPoint = transform.position;
+            
         }
     }
 }

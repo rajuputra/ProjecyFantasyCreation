@@ -76,7 +76,7 @@ public class Player : MonoBehaviour
     [Header("Health Settings")]
     public int health;
     public int maxHealth;
-    public int maxTotalHealth = 7;
+    public int maxTotalHealth = 6;
     public int heartShards;
     [SerializeField] GameObject bloodSpurt;
     [SerializeField] float hitFlashSpeed;
@@ -155,7 +155,7 @@ public class Player : MonoBehaviour
         anim = GetComponent<Animator>();
         audioSource = GetComponent<AudioSource>();
         /*_cameraFollowObject = _cameraFollowGo.GetComponent<CameraFollowObject>();*/
-        /*SaveData.Instance.LoadPlayerData();*/
+        SaveData.Instance.LoadPlayerData();
 
         gravity = rb.gravityScale;
         Mana = mana;
@@ -182,8 +182,10 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        SetScene();
+        if (pauseMenu.isPaused) return;
+        TestCameraShake();
         ResetPlayerData();
+        UnlockJumpDash();
         if (aState.cutscene) return;
         if(aState.alive)
         {
@@ -229,13 +231,24 @@ public class Player : MonoBehaviour
         }        
         FlashWhileInvincible();
 
+        if (Input.GetKeyDown(KeyCode.P))
+        {
+            ResetSavean();
+        }
+
     }
     void DialogueActive()
     {
         rb.velocity= new Vector2(0 , 0);
         
     }
-
+    void TestCameraShake()
+    {
+        if(Input.GetKeyDown(KeyCode.S))
+        {
+            CameraShake.instance.ShakeCamera(1f, 0.1f);
+        }
+    }
     private void FixedUpdate()
     {
         if(aState.cutscene) return;
@@ -260,16 +273,16 @@ public class Player : MonoBehaviour
             Vector3 rotator = new Vector3(transform.rotation.x, 180f, transform.rotation.z);
             transform.rotation = Quaternion.Euler(rotator);
             aState.lookingRight = false;
-            isFacingRight = aState.lookingRight;
-            /*_cameraFollowObject.CallTurn();*/
+            /*isFacingRight = aState.lookingRight;*/
+            //_cameraFollowObject.CallTurn();
         }
         else if (xAxis > 0)
         {
             Vector3 rotator = new Vector3(transform.rotation.x, 0f, transform.rotation.z);
             transform.rotation = Quaternion.Euler(rotator);
             aState.lookingRight = true;
-            isFacingRight = aState.lookingRight;
-            /*_cameraFollowObject.CallTurn();*/
+            /*isFacingRight = aState.lookingRight;*/
+            //_cameraFollowObject.CallTurn();
         }
     }
 
@@ -281,11 +294,25 @@ public class Player : MonoBehaviour
             unlockedDash = false;
             unlockedVarJump = false;
             unlockedWallJump = false;
-
             maxHealth = 5;
-            SaveData.Instance.SavePlayerData();
-
+            maxTotalHealth = 6;
+            
+  
         }
+    }
+
+    private void UnlockJumpDash()
+    {
+        if(Input.GetKeyDown(KeyCode.J))
+        {
+            unlockedDash = true;
+            unlockedVarJump = true;
+        }
+        
+    }
+    private void ResetSavean()
+    {
+        SaveData.ClearSavedData();
     }
     private void Move()
     {
@@ -354,7 +381,8 @@ public class Player : MonoBehaviour
                 int _recoilLeftOrRight = aState.lookingRight ? 1 : -1;
 
                 Hit(SideAttackTransform, SideAttackArea, ref aState.recoilingX,Vector2.right * _recoilLeftOrRight ,recoilXSpeed);
-                
+                HitBoss(SideAttackTransform, SideAttackArea, ref aState.recoilingX, Vector2.right * _recoilLeftOrRight, recoilXSpeed);
+
             }
             
         }
@@ -377,6 +405,31 @@ public class Player : MonoBehaviour
                 audioSource.PlayOneShot(hitSound);
 
                 if (objectsToHit[i].CompareTag("Enemy"))
+                {
+                    Mana += manaGain;
+                }
+            }
+        }
+
+    }
+
+    void HitBoss(Transform _attackTransform, Vector2 _attackArea, ref bool _recoilBool, Vector2 _recoilDir, float _recoilStrength)
+    {
+        Collider2D[] objectsToHit = Physics2D.OverlapBoxAll(_attackTransform.position, _attackArea, 0, attackableLayer);
+
+        if (objectsToHit.Length > 0)
+        {
+            _recoilBool = true;
+        }
+
+        for (int i = 0; i < objectsToHit.Length; i++)
+        {
+            if (objectsToHit[i].GetComponent<GruzMother>() != null)
+            {
+                objectsToHit[i].GetComponent<GruzMother>().EnemyGetsHit(damage, _recoilDir, _recoilStrength);
+                audioSource.PlayOneShot(hitSound);
+
+                if (objectsToHit[i].CompareTag("Boss"))
                 {
                     Mana += manaGain;
                 }
@@ -484,25 +537,6 @@ public class Player : MonoBehaviour
         yield return new WaitForSeconds(_delay);
     }
 
-    void SetScene()
-    {
-        
-        if (Input.GetKeyDown(KeyCode.Alpha1))
-        {
-            SaveData.Instance.sceneNames.Add("Chapter1-1");
-        }
-
-        else if (Input.GetKeyDown(KeyCode.Alpha2))
-        {
-            SaveData.Instance.sceneNames.Add("Chapter1-2");
-        }
-
-        else if (Input.GetKeyDown(KeyCode.Alpha3))
-        {
-            SaveData.Instance.sceneNames.Add("Chapter1-3");
-            Debug.Log("Ganti Scene");
-        }
-    }
 
     IEnumerator Death()
     {

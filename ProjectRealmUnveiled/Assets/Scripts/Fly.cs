@@ -97,6 +97,6 @@ public class Fly : Enemy
 
     void FlipFly()
     {
-        sr.flipX = Player.Instance.transform.position.x < transform.position.x;
+        sr.flipX = Player.Instance.transform.position.x > transform.position.x;
     }
 }

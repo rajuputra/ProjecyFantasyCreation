@@ -78,7 +78,7 @@ SpriteRenderer:
   m_SortingLayerID: -1458900807
   m_SortingLayer: 4
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 9a6c0d3fe26cde049b41428b6606d578, type: 3}
+  m_Sprite: {fileID: -610478901, guid: 3903c06f8359fb14d9f4450370332025, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 1
   m_FlipY: 0
@@ -121,18 +121,18 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.0000076293945, y: -0.096000075}
+  m_Offset: {x: -0.023094177, y: -0.046941757}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 0.96875, y: 0.76171875}
+    oldSize: {x: 1.08, y: 1.08}
     newSize: {x: 1.02, y: 0.82}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.75258255, y: 0.5295141}
+  m_Size: {x: 0.6371498, y: 1.0662804}
   m_EdgeRadius: 0
 --- !u!50 &6937799470684525377
 Rigidbody2D:
@@ -216,7 +216,7 @@ AudioSource:
   m_GameObject: {fileID: 1473181291793596549}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 24300002, guid: da9dfe9e2980fac41ad8b58d85933b42, type: 2}
+  OutputAudioMixerGroup: {fileID: 6507565743723306290, guid: da9dfe9e2980fac41ad8b58d85933b42, type: 2}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 1
   m_Volume: 1
