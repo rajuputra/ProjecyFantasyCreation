@@ -181,7 +181,7 @@ MonoBehaviour:
   damage: 1
   PurpleBlood: {fileID: 8038439248530592222, guid: 9a0fa54af37fccc449e955a513e03c91, type: 3}
   flipWaitTime: 1
-  ledgeCheckX: 1.2
+  ledgeCheckX: 0.5
   ledgeCheckY: 1
   whatIsGround:
     serializedVersion: 2

@@ -7,15 +7,22 @@ public class SaveStuff : MonoBehaviour
 {
     private Animator anim;
     public bool interacted;
-    
 
+
+
+    public SaveInteraction saveInteraction;
     public Transform detectionPoint;
     private const float detectionRadius = 1f;
+    private const float detectioniRadiusActive = 3f;
     public LayerMask detectionLayer;
+    private AudioSource audioSource;
+    [SerializeField] AudioClip saveSound;
     // Start is called before the first frame update
     void Start()
     {
         anim = GetComponent<Animator>();
+        saveInteraction = FindObjectOfType<SaveInteraction>();
+        audioSource = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -27,16 +34,23 @@ public class SaveStuff : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (DetectObject())
+        //saveInteraction = FindObjectOfType<SaveInteraction>();
+        if (DetectPlayerLocation())
         {
-            if (InteractInput())
+            if (DetectObject())
             {
-                Enter();
+                saveInteraction.ShowAnimasi();
+                if (InteractInput())
+                {
+                    audioSource.PlayOneShot(saveSound);
+                    Enter();
+                }
             }
-        }
-        else if (!DetectObject())
-        {
-            Keluar();
+            else if (!DetectObject())
+            {
+                saveInteraction.HideAnimasi();
+                Keluar();
+            }
         }
     }
 
@@ -49,7 +63,10 @@ public class SaveStuff : MonoBehaviour
     {
         return Physics2D.OverlapCircle(detectionPoint.position, detectionRadius, detectionLayer);
     }
-
+    bool DetectPlayerLocation()
+    {
+        return Physics2D.OverlapCircle(detectionPoint.position, detectioniRadiusActive, detectionLayer);
+    }
     /*private void OnTriggerStay2D(Collider2D _collision)
     {
         if (_collision.CompareTag("Player") && Input.GetButtonDown("Interact"))

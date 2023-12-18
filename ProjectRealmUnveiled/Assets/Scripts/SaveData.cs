@@ -119,6 +119,7 @@ public struct SaveData
         }
     }
 
+    
     public void LoadPlayerData()
     {
         if(File.Exists(Application.persistentDataPath + "/save.player.data"))
@@ -212,25 +213,4 @@ public struct SaveData
         }
     }
 
-    public static void ClearSavedData()
-    {
-        string saveStuffPath = Application.persistentDataPath + "/save.savestuff.data";
-        string playerDataPath = Application.persistentDataPath + "/save.player.data";
-        string shadeDataPath = Application.persistentDataPath + "/save.shade.data";
-
-        if (File.Exists(saveStuffPath))
-        {
-            File.Delete(saveStuffPath);
-        }
-
-        if (File.Exists(playerDataPath))
-        {
-            File.Delete(playerDataPath);
-        }
-
-        if (File.Exists(shadeDataPath))
-        {
-            File.Delete(shadeDataPath);
-        }
-    }
 }

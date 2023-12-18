@@ -23,6 +23,17 @@ public class GruzMother : MonoBehaviour
     [SerializeField] Transform goundCheckWall;
     [SerializeField] float groundCheckRadius;
     [SerializeField] LayerMask groundLayer;
+    [SerializeField] Transform playerCheck;
+    private const float playerCheckRadius = 1.0f;
+    [SerializeField] LayerMask playerLayer;
+    private Animator anim;
+    private bool invincible = false;
+    public BossThemeSong bossThemeSong;
+
+    
+
+
+    private AudioSource audioSource;
     private bool isTouchingUp;
     private bool isTouchingDown;
     private bool isTouchingWall;
@@ -44,7 +55,14 @@ public class GruzMother : MonoBehaviour
     [SerializeField] private float damage;
     [SerializeField] protected GameObject PurpleBlood;
 
+    [SerializeField] AudioClip slamSound;
+    private SpriteRenderer sr;
 
+    public Pintu pintu;
+    public PintuKeluar pintuKeluar;
+
+    public bool startAttack;
+    private bool alreadyAttack = false;
     void Start()
     {
         idelMovementDirection.Normalize();
@@ -52,6 +70,15 @@ public class GruzMother : MonoBehaviour
         enemyRB = GetComponent<Rigidbody2D>();
         enemyAnim = GetComponent<Animator>();
         player = Player.Instance.transform;
+        audioSource = GetComponent<AudioSource>();
+        bossThemeSong = FindObjectOfType<BossThemeSong>();
+        anim = GetComponent<Animator>();
+        sr = GetComponent<SpriteRenderer>();
+        pintu = FindObjectOfType<Pintu>();
+        pintuKeluar = FindObjectOfType<PintuKeluar>();
+
+        pintu.Unactive();
+        pintuKeluar.Active();
     }
 
     // Update is called once per frame
@@ -60,8 +87,48 @@ public class GruzMother : MonoBehaviour
         isTouchingUp = Physics2D.OverlapCircle(goundCheckUp.position, groundCheckRadius, groundLayer); 
         isTouchingDown = Physics2D.OverlapCircle(goundCheckDown.position, groundCheckRadius, groundLayer); 
         isTouchingWall = Physics2D.OverlapCircle(goundCheckWall.position, groundCheckRadius, groundLayer);
+        if (health <= 0)
+        {
+            CameraShake.instance.ShakeCamera(3f, 2f);
+            pintu.Unactive();
+            pintuKeluar.Unactive();
+            bossThemeSong.PlayDefaultMusic();
+            Death(3f);
+        }
+
+        startAttack = PlayerDetected();
+
+       
+        if(!alreadyAttack)
+        {
+            AttackStart();
+        }
+
+        FlashWhileInvincible();
+
+        if(Player.Instance.health <= 0)
+        {
+            pintu.Unactive();
+        }
+        
     }
 
+    void AttackStart()
+    {
+        if(startAttack)
+        {
+            alreadyAttack = true;
+            enemyAnim.SetTrigger("GetAttack");
+            bossThemeSong.PlayBossMusic();
+            pintu.Active();
+            
+        }
+    }
+
+    bool PlayerDetected()
+    {
+        return Physics2D.OverlapCircle(playerCheck.position, playerCheckRadius, playerLayer);
+    }
     void RandomStatePicker()
     {
         int randomState = Random.Range(0, 2);
@@ -103,10 +170,14 @@ public class GruzMother : MonoBehaviour
     {
         if (isTouchingUp && goingUp)
         {
+            audioSource.PlayOneShot(slamSound);
+            CameraShake.instance.ShakeCamera(2f, 0.3f);
             ChangeDirection();
         }
         else if (isTouchingDown && !goingUp)
         {
+            audioSource.PlayOneShot(slamSound);
+            CameraShake.instance.ShakeCamera(2f, 0.3f);
             ChangeDirection();
         }
 
@@ -130,7 +201,7 @@ public class GruzMother : MonoBehaviour
         if (!hasPlayerPositon)
         {
             FlipTowardsPlayer();
-             playerPosition = player.position - transform.position;
+            playerPosition = player.position - transform.position;
             playerPosition.Normalize();
             hasPlayerPositon = true;
         }
@@ -145,6 +216,8 @@ public class GruzMother : MonoBehaviour
         {
             //play Slam animation
             enemyAnim.SetTrigger("Slamed");
+            audioSource.PlayOneShot(slamSound);
+            CameraShake.instance.ShakeCamera(2f, 0.3f);
             enemyRB.velocity = Vector2.zero;
             hasPlayerPositon = false;
         }
@@ -190,12 +263,35 @@ public class GruzMother : MonoBehaviour
     public void EnemyGetsHit(float _damageDone, Vector2 _hitDirection, float _hitForce)
     {
         health -= _damageDone;
+        /*anim.Play("BossGotHit");*/
+        StartCoroutine(StopTakingDamage());
+
         if (!isRecoiling)
         {
             GameObject _purpleBlood = Instantiate(PurpleBlood, transform.position, Quaternion.identity);
             Destroy(_purpleBlood, 5.5f);
             enemyRB.velocity = _hitForce * recoilFactor * _hitDirection;
         }
+        
+    }
+
+    IEnumerator KenaHit()
+    {
+        sr.enabled = false;
+        yield return new WaitForSeconds(0.1f);
+        sr.enabled = true;
+    }
+
+    IEnumerator StopTakingDamage()
+    {
+        invincible = true;
+        yield return new WaitForSeconds(1f);
+        invincible = false;
+    }
+
+    void FlashWhileInvincible()
+    {
+        sr.material.color = invincible ? Color.Lerp(Color.white, Color.black, Mathf.PingPong(Time.time * 5, 1.0f)) : Color.white;
     }
 
     void OnCollisionStay2D(Collision2D _other)
@@ -212,8 +308,13 @@ public class GruzMother : MonoBehaviour
         }
     }
 
-    protected virtual void Attack()
+    private void Attack()
     {
         Player.Instance.TakeDamage(damage);
+    }
+
+    private void Death(float _destroyTime)
+    {
+        Destroy(gameObject, _destroyTime);
     }
 }

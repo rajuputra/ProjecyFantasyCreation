@@ -116,6 +116,7 @@ public class Player : MonoBehaviour
     public Rigidbody2D rb;
     private SpriteRenderer sr;
     private AudioSource audioSource;
+    private AudioSource healSource;
     private float nextFootstepTime;
 
     //Input Variables
@@ -159,9 +160,12 @@ public class Player : MonoBehaviour
         sr = GetComponent<SpriteRenderer>();
         anim = GetComponent<Animator>();
         audioSource = GetComponent<AudioSource>();
-        audioSource = gameObject.AddComponent<AudioSource>();
-        audioSource.loop = true; // Mengatur AudioSource agar dapat diulang (loop)
-        audioSource.clip = healSound;
+        healSource = GetComponent<AudioSource>();
+        /*audioSource = gameObject.AddComponent<AudioSource>();*/
+        healSource.loop = true; // Mengatur AudioSource agar dapat diulang (loop)
+        healSource.clip = healSound;
+
+        
         /*_cameraFollowObject = _cameraFollowGo.GetComponent<CameraFollowObject>();*/
         SaveData.Instance.LoadPlayerData();
 
@@ -190,10 +194,11 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        
         if (pauseMenu.isPaused) return;
-        TestCameraShake();
-        ResetPlayerData();
-        UnlockJumpDash();
+        //TestCameraShake();
+        //ResetPlayerData();
+        //UnlockJumpDash();
         if (aState.cutscene) return;
         if(aState.alive)
         {
@@ -240,10 +245,7 @@ public class Player : MonoBehaviour
         }        
         FlashWhileInvincible();
 
-        if (Input.GetKeyDown(KeyCode.P))
-        {
-            ResetSavean();
-        }
+        
 
     }
     void DialogueActive()
@@ -318,7 +320,7 @@ public class Player : MonoBehaviour
             unlockedVarJump = false;
             unlockedWallJump = false;
             maxHealth = 5;
-            maxTotalHealth = 6;
+            heartShards = 0;
             
   
         }
@@ -333,10 +335,7 @@ public class Player : MonoBehaviour
         }
         
     }
-    private void ResetSavean()
-    {
-        SaveData.ClearSavedData();
-    }
+    
     private void Move()
     {
         rb.velocity = new Vector2(walkSpeed * xAxis, rb.velocity.y);
@@ -432,6 +431,7 @@ public class Player : MonoBehaviour
                     Mana += manaGain;
                 }
             }
+
         }
 
     }
@@ -452,7 +452,7 @@ public class Player : MonoBehaviour
                 objectsToHit[i].GetComponent<GruzMother>().EnemyGetsHit(damage, _recoilDir, _recoilStrength);
                 audioSource.PlayOneShot(hitSound);
 
-                if (objectsToHit[i].CompareTag("Boss"))
+                if (objectsToHit[i].CompareTag("GruzMother"))
                 {
                     Mana += manaGain;
                 }
@@ -665,7 +665,7 @@ public class Player : MonoBehaviour
 
     void Heal()
     {
-        if (Input.GetButton("Healing") && Health < maxHealth && !aState.jumping && !aState.dashing && rb.velocity.x == 0)
+        if (Input.GetButton("Healing") && Health < maxHealth && !aState.jumping && !aState.dashing && rb.velocity.x == 0 && Mana != 0)
         {
             aState.healing = true;
             anim.SetBool("Healing", true);

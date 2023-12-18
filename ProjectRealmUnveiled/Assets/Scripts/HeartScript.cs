@@ -12,8 +12,8 @@ public class HeartScript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        heartContainers = new GameObject[Player.Instance.maxHealth];
-        heartFills = new Image[Player.Instance.maxHealth];
+        heartContainers = new GameObject[Player.Instance.maxTotalHealth];
+        heartFills = new Image[Player.Instance.maxTotalHealth];
 
         Player.Instance.onHealthChangedCallback += UpdateHeartsHUD;
         InstantiateHeartContainers();
@@ -30,7 +30,7 @@ public class HeartScript : MonoBehaviour
     {
         for (int i = 0; i < heartContainers.Length; i++)
         {
-            if (i < Player.Instance.maxTotalHealth)
+            if (i < Player.Instance.maxHealth)
             {
                 heartContainers[i].SetActive(true);
             }
@@ -56,7 +56,7 @@ public class HeartScript : MonoBehaviour
     }
     void InstantiateHeartContainers()
     {
-        for (int i = 0; i < Player.Instance.maxHealth; i++)
+        for (int i = 0; i < Player.Instance.maxTotalHealth; i++)
         {
             GameObject temp = Instantiate(heartContainerPrefab);
             temp.transform.SetParent(heartsParent, false);

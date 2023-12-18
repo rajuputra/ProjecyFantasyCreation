@@ -38,7 +38,7 @@ public class HeartShards : MonoBehaviour
 
         fill.fillAmount = targetFillAmount;
 
-        if (fill.fillAmount == 1)
+        if (fill.fillAmount >= 0.99f)
         {
             Player.Instance.maxHealth++;
             Player.Instance.onHealthChangedCallback();

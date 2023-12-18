@@ -37,9 +37,9 @@ public class IncreaseMaxHealth : MonoBehaviour
         yield return new WaitForSeconds(0.5f);
 
         canvasUI.SetActive(true);
-        heartShards.initialFillAmount = Player.Instance.heartShards * 0.25f;
+        heartShards.initialFillAmount = Player.Instance.heartShards * 0.33f;
         Player.Instance.heartShards++;
-        heartShards.targetFillAmount = Player.Instance.heartShards * 0.25f;
+        heartShards.targetFillAmount = Player.Instance.heartShards * 0.33f;
 
         StartCoroutine(heartShards.LerpFill());
 

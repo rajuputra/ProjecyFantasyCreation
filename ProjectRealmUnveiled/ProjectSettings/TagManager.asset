@@ -6,6 +6,9 @@ TagManager:
   tags:
   - Enemy
   - Death
+  - GruzMother
+  - Pintu
+  - Canvas
   layers:
   - Default
   - TransparentFX
